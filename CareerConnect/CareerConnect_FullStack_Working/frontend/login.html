@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - CareerConnect</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="auth-page">
+
+        <div class="auth-card">
+
+            <a class="brand" href="index.html">
+                🎓 CareerConnect
+            </a>
+
+            <h1>Welcome Back! 👋</h1>
+
+            <p>
+                Login to continue your journey.
+            </p>
+
+            <!-- ROLE SELECTION -->
+
+            <div class="role-tabs">
+
+                <button
+                    id="candidateTab"
+                    class="selected"
+                    type="button"
+                    onclick="setRole('candidate')">
+                    Candidate
+                </button>
+
+                <button
+                    id="companyTab"
+                    type="button"
+                    onclick="setRole('employer')">
+                    Company
+                </button>
+
+            </div>
+
+
+            <!-- EMAIL -->
+
+            <label for="email">
+                Email address
+            </label>
+
+            <input
+                id="email"
+                type="email"
+                placeholder="you@example.com"
+                autocomplete="email"
+            >
+
+
+            <!-- PASSWORD -->
+
+            <label for="password">
+                Password
+            </label>
+
+            <input
+                id="password"
+                type="password"
+                placeholder="••••••••"
+                autocomplete="current-password"
+            >
+
+
+            <!-- REMEMBER / FORGOT -->
+
+            <div class="row">
+
+                <span>
+                    □ Remember me
+                </span>
+
+                <a href="#">
+                    Forgot password?
+                </a>
+
+            </div>
+
+
+            <!-- LOGIN BUTTON -->
+
+            <button
+                class="btn primary full"
+                type="button"
+                onclick="login()">
+                Login
+            </button>
+
+
+            <!-- LOGIN MESSAGE -->
+
+            <div
+                id="msg"
+                style="margin-top:10px">
+            </div>
+
+
+            <!-- REGISTER -->
+
+            <p>
+                Don't have an account?
+                <a href="register.html">
+                    Register
+                </a>
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- COMMON CAREERCONNECT JAVASCRIPT -->
+
+    <script src="app.js"></script>
+
+
+    <!-- LOGIN JAVASCRIPT -->
+
+    <script>
+
+        let selectedRole = "candidate";
+
+
+        /* =========================
+           SELECT ACCOUNT TYPE
+        ========================= */
+
+        function setRole(role) {
+
+            selectedRole = role;
+
+            document
+                .getElementById("candidateTab")
+                .classList
+                .toggle(
+                    "selected",
+                    role === "candidate"
+                );
+
+            document
+                .getElementById("companyTab")
+                .classList
+                .toggle(
+                    "selected",
+                    role === "employer"
+                );
+        }
+
+
+        /* =========================
+           LOGIN
+        ========================= */
+
+        async function login() {
+
+            const msg =
+                document.getElementById("msg");
+
+            msg.textContent = "";
+
+            try {
+
+                /*
+                 * STEP 1
+                 * Get email and password
+                 */
+
+                const email =
+                    document
+                        .getElementById("email")
+                        .value
+                        .trim();
+
+                const password =
+                    document
+                        .getElementById("password")
+                        .value;
+
+
+                if (!email || !password) {
+
+                    throw new Error(
+                        "Please enter your email and password."
+                    );
+
+                }
+
+
+                /*
+                 * STEP 2
+                 * Prepare login form
+                 */
+
+                const formData =
+                    new URLSearchParams();
+
+                formData.append(
+                    "username",
+                    email
+                );
+
+                formData.append(
+                    "password",
+                    password
+                );
+
+
+                /*
+                 * STEP 3
+                 * Login
+                 */
+
+                const data =
+                    await api(
+                        "/auth/login",
+                        {
+                            method: "POST",
+                            body: formData
+                        }
+                    );
+
+
+                /*
+                 * STEP 4
+                 * IMPORTANT:
+                 * Save the NEW JWT BEFORE
+                 * calling /auth/me
+                 */
+
+                localStorage.setItem(
+                    "cc_token",
+                    data.access_token
+                );
+
+
+                /*
+                 * STEP 5
+                 * Get current user
+                 * using the NEW JWT
+                 */
+
+                const me =
+                    await api(
+                        "/auth/me",
+                        {
+                            headers:
+                                authHeaders()
+                        }
+                    );
+
+
+                /*
+                 * STEP 6
+                 * Make sure the selected
+                 * account type is correct
+                 */
+
+                if (
+                    me.role !== selectedRole
+                ) {
+
+                    localStorage.removeItem(
+                        "cc_token"
+                    );
+
+                    throw new Error(
+                        "This account does not match the selected account type."
+                    );
+                }
+
+
+                /*
+                 * STEP 7
+                 * Save complete session
+                 */
+
+                saveSession(
+                    data,
+                    me
+                );
+
+
+                /*
+                 * STEP 8
+                 * Redirect to correct dashboard
+                 */
+
+                if (
+                    me.role === "candidate"
+                ) {
+
+                    location.href =
+                        "candidate-dashboard.html";
+
+                } else {
+
+                    location.href =
+                        "company-dashboard.html";
+
+                }
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Login error:",
+                    error
+                );
+
+                msg.textContent =
+                    error.message ||
+                    "Login failed.";
+
+                msg.style.color =
+                    "#b43e4c";
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>

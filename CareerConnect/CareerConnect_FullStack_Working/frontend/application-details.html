@@ -1,0 +1,2244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>Application Details | CareerConnect</title>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+.details-wrap{
+    display:grid;
+    grid-template-columns:minmax(0,1.15fr) minmax(360px,.85fr);
+    gap:22px;
+    align-items:start;
+}
+
+.detail-section{
+    margin-top:24px;
+}
+
+.detail-section h3{
+    margin:0 0 12px;
+    color:var(--ink);
+}
+
+.detail-text{
+    white-space:pre-wrap;
+    line-height:1.7;
+    color:var(--muted);
+}
+
+.info-grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:12px;
+}
+
+.info-box{
+    padding:14px 15px;
+    border:1px solid var(--line);
+    border-radius:13px;
+    background:#fffaf7;
+}
+
+.info-box small{
+    display:block;
+    color:var(--muted);
+    margin-bottom:5px;
+    font-size:12px;
+}
+
+.info-box b{
+    display:block;
+    color:var(--ink);
+    line-height:1.45;
+    overflow-wrap:anywhere;
+}
+
+.profile-head{
+    display:flex;
+    gap:18px;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.avatar.large{
+    width:86px;
+    height:86px;
+    min-width:86px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:40px;
+    background:#f0e9ff;
+    overflow:hidden;
+}
+
+.avatar.large img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.links,
+.resume-actions,
+.actions,
+.button-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+}
+
+.link-btn{
+    display:inline-flex;
+    align-items:center;
+    padding:9px 13px;
+    border-radius:9px;
+    text-decoration:none;
+    background:#f1ecff;
+    color:#6336c8;
+    border:1px solid #dfd2f6;
+    font-size:13px;
+    font-weight:700;
+}
+
+.link-btn:hover{
+    transform:translateY(-1px);
+}
+
+.muted{
+    color:var(--muted)!important;
+}
+
+.panel{
+    padding:18px;
+    border:1px solid var(--line);
+    border-radius:14px;
+    background:rgba(255,249,244,.8);
+    margin-top:20px;
+}
+
+.panel h3{
+    margin-top:0;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:13px;
+    margin-top:10px;
+}
+
+.form-field.full-field{
+    grid-column:1/-1;
+}
+
+.form-field label{
+    display:block;
+    text-align:left;
+    font-size:12px;
+    font-weight:800;
+    margin:10px 0 5px;
+}
+
+.form-field input,
+.form-field textarea,
+.form-field select{
+    width:100%;
+    border:1px solid var(--line);
+    background:#fffaf7;
+    color:var(--ink);
+    border-radius:10px;
+    padding:11px 12px;
+    outline:none;
+}
+
+.form-field input:focus,
+.form-field textarea:focus,
+.form-field select:focus{
+    border-color:var(--accent);
+}
+
+.save-row{
+    display:flex;
+    justify-content:flex-end;
+    margin-top:16px;
+}
+
+.two-col{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+.interview-card{
+    border:1px solid #d9cde8;
+    border-radius:14px;
+    padding:16px;
+    background:#fbf8ff;
+}
+
+.offer-card{
+    border:1px solid #e6cdd9;
+    border-radius:14px;
+    padding:16px;
+    background:#fff8f3;
+}
+
+.job-description{
+    max-height:180px;
+    overflow:auto;
+}
+
+.small-note{
+    font-size:12px;
+    color:var(--muted);
+}
+
+body.dark-mode .info-box,
+body.dark-mode .panel{
+    background:#2a2230;
+    border-color:#49384c;
+}
+
+body.dark-mode .info-box b{
+    color:#f5edf7;
+}
+
+body.dark-mode .detail-text{
+    color:#d4c8d8;
+}
+
+body.dark-mode .form-field input,
+body.dark-mode .form-field textarea,
+body.dark-mode .form-field select{
+    background:#18141d;
+    color:#f5edf7;
+    border-color:#55425a;
+}
+
+body.dark-mode .interview-card{
+    background:#2b2432;
+    border-color:#59465f;
+}
+
+body.dark-mode .offer-card{
+    background:#2b2430;
+    border-color:#59435a;
+}
+
+body.dark-mode .link-btn{
+    background:#382b3d;
+    color:#e6c9eb;
+    border-color:#55425a;
+}
+
+@media(max-width:900px){
+    .details-wrap{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:600px){
+    .info-grid,
+    .form-grid,
+    .two-col{
+        grid-template-columns:1fr;
+    }
+
+    .form-field.full-field{
+        grid-column:auto;
+    }
+
+    .details-wrap .profile-card{
+        padding:17px;
+    }
+
+    .avatar.large{
+        width:70px;
+        height:70px;
+        min-width:70px;
+        font-size:32px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <a class="brand" href="index.html">
+            🎓 CareerConnect
+        </a>
+
+        <a href="company-dashboard.html">
+            ⌂ Dashboard
+        </a>
+
+        <a href="post-job.html">
+            ▣ Post Job
+        </a>
+
+        <a href="employer-jobs.html">
+            ◫ My Jobs
+        </a>
+
+        <a class="active" href="employer-applications.html">
+            ♙ Applications
+        </a>
+
+        <a href="company-profile.html">
+            🏢 Company Profile
+        </a>
+
+        <a onclick="logout()">
+            ↪ Logout
+        </a>
+
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="dashboard">
+
+        <header class="dashbar">
+
+            <a href="employer-applications.html">
+                ← Back to Applications
+            </a>
+
+            <span id="bell"></span>
+
+            <span>
+                🏢 Company
+            </span>
+
+        </header>
+
+
+        <div class="page-title">
+
+            <div>
+                <h1>Application Details</h1>
+
+                <p>
+                    Review the candidate and manage the hiring process.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div id="details"></div>
+
+    </main>
+
+</div>
+
+
+<script src="app.js"></script>
+
+<script>
+
+requireRole("employer");
+
+document.getElementById("bell").innerHTML = bell();
+
+let currentApplication = null;
+
+
+/* =========================
+   HELPER FUNCTIONS
+========================= */
+
+function text(value, fallback = "Not provided"){
+
+    if(value !== null &&
+       value !== undefined &&
+       String(value).trim()){
+
+        return esc(value);
+    }
+
+    return `<span class="muted">${fallback}</span>`;
+}
+
+
+function link(url, label){
+
+    if(!url || !String(url).trim()){
+        return "";
+    }
+
+    let u = String(url).trim();
+
+    if(!/^https?:\/\//i.test(u)){
+        u = "https://" + u;
+    }
+
+    return `
+        <a
+            class="link-btn"
+            href="${esc(u)}"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            ${label} ↗
+        </a>
+    `;
+}
+
+
+function info(label, value){
+
+    return `
+        <div class="info-box">
+            <small>${label}</small>
+            <b>${text(value)}</b>
+        </div>
+    `;
+}
+
+
+function statusLabel(status){
+
+    const map = {
+        pending:"Pending",
+        review:"Under Review",
+        shortlisted:"Shortlisted",
+        interview:"Interview",
+        selected:"Selected",
+        rejected:"Rejected",
+        accepted:"Selected"
+    };
+
+    return map[status] || status || "Pending";
+}
+
+
+function starsOptions(name){
+
+    return `
+        <select id="${name}">
+            <option value="">Not rated</option>
+            <option>1/5</option>
+            <option>2/5</option>
+            <option>3/5</option>
+            <option>4/5</option>
+            <option>5/5</option>
+        </select>
+    `;
+}
+
+
+/* =========================
+   LOAD APPLICATION
+========================= */
+
+async function load(){
+
+    try{
+
+        const id =
+            new URLSearchParams(location.search).get("id");
+
+
+        const applications =
+            await api(
+                "/applications/employer",
+                {
+                    headers:authHeaders()
+                }
+            );
+
+
+        const x =
+            applications.find(
+                v =>
+                String(v.application_id) === String(id)
+            );
+
+
+        if(!x){
+
+            document.getElementById("details").innerHTML = `
+                <div class="profile-card">
+
+                    <h2>
+                        Application not found.
+                    </h2>
+
+                    <p>
+                        The requested application could not be found.
+                    </p>
+
+                </div>
+            `;
+
+            return;
+        }
+
+
+        currentApplication = x;
+
+
+        const resume =
+            x.candidate_resume_url || "";
+
+
+        const resumeUrl =
+            resume
+            ? (
+                /^https?:\/\//i.test(resume)
+                ? resume
+                : "https://" + resume
+              )
+            : "";
+
+
+        const interview =
+            x.interview || {};
+
+
+        const offer =
+            x.offer || {
+                status:"not_created"
+            };
+
+
+        /*
+         * IMPORTANT:
+         * EVERYTHING BELOW IS INSIDE THE TEMPLATE STRING.
+         * This prevents ${text(...)} from appearing literally.
+         */
+
+        document.getElementById("details").innerHTML = `
+
+        <div class="details-wrap">
+
+
+            <!-- =================================
+                 LEFT SIDE - CANDIDATE
+            ================================== -->
+
+            <section class="profile-card">
+
+
+                <!-- Candidate heading -->
+
+                <div class="profile-head">
+
+                    <div class="avatar large">
+                        👩🏻‍💼
+                    </div>
+
+                    <div>
+
+                        <h2 style="margin:0">
+                            ${esc(x.candidate_name || "Candidate")}
+                        </h2>
+
+                        <p style="margin:5px 0 0;color:#777">
+
+                            ${text(
+                                x.candidate_degree,
+                                "Candidate"
+                            )}
+
+                            ${
+                                x.candidate_branch
+                                ? " · " + esc(x.candidate_branch)
+                                : ""
+                            }
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Candidate information -->
+
+                <div class="info-grid">
+
+                    ${info(
+                        "Email",
+                        x.candidate_email
+                    )}
+
+                    ${info(
+                        "Phone",
+                        x.candidate_phone
+                    )}
+
+                    ${info(
+                        "Location",
+                        x.candidate_location
+                    )}
+
+                    ${info(
+                        "College",
+                        x.candidate_college
+                    )}
+
+                    ${info(
+                        "Date of Birth",
+                        x.candidate_date_of_birth
+                    )}
+
+                    ${info(
+                        "Current Year",
+                        x.candidate_current_year
+                    )}
+
+                    ${info(
+                        "Graduation Year",
+                        x.candidate_graduation_year
+                    )}
+
+                    ${info(
+                        "CGPA",
+                        x.candidate_cgpa
+                    )}
+
+                    ${info(
+                        "Degree / Branch",
+                        (x.candidate_degree || "") +
+                        (
+                            x.candidate_branch
+                            ? " · " + x.candidate_branch
+                            : ""
+                        )
+                    )}
+
+                </div>
+
+
+                <!-- =============================
+                     SKILLS
+                ============================== -->
+
+                <div class="detail-section">
+
+                    <h3>
+                        Skills
+                    </h3>
+
+                    <div class="detail-text">
+                        ${text(x.candidate_skills)}
+                    </div>
+
+                </div>
+
+
+                <!-- =============================
+                     ABOUT
+                ============================== -->
+
+                <div class="detail-section">
+
+                    <h3>
+                        About Me
+                    </h3>
+
+                    <div class="detail-text">
+                        ${text(x.candidate_about)}
+                    </div>
+
+                </div>
+
+
+                <!-- =============================
+                     QUALIFICATIONS
+                ============================== -->
+
+                <div class="detail-section">
+
+                    <h3>
+                        Qualifications
+                    </h3>
+
+                    <div class="detail-text">
+                        ${text(x.candidate_qualifications)}
+                    </div>
+
+                </div>
+
+
+                <!-- =============================
+                     PROJECTS
+                ============================== -->
+
+                <div class="detail-section">
+
+                    <h3>
+                        Projects
+                    </h3>
+
+                    <div class="detail-text">
+                        ${text(x.candidate_projects)}
+                    </div>
+
+                </div>
+
+
+                <!-- =============================
+                     EXPERIENCE
+                ============================== -->
+
+                <div class="detail-section">
+
+                    <h3>
+                        Experience
+                    </h3>
+
+                    <div class="detail-text">
+                        ${text(x.candidate_experience)}
+                    </div>
+
+                </div>
+
+
+                <!-- =============================
+                     ACHIEVEMENTS
+                ============================== -->
+
+                <div class="detail-section">
+
+                    <h3>
+                        Achievements
+                    </h3>
+
+                    <div class="detail-text">
+                        ${text(x.candidate_achievements)}
+                    </div>
+
+                </div>
+
+
+                <!-- =============================
+                     CERTIFICATIONS
+                ============================== -->
+
+                <div class="detail-section">
+
+                    <h3>
+                        Certifications
+                    </h3>
+
+                    <div class="detail-text">
+                        ${text(x.candidate_certifications)}
+                    </div>
+
+                </div>
+
+
+                <!-- =============================
+                     PROFESSIONAL LINKS
+                ============================== -->
+
+                <div class="detail-section">
+
+                    <h3>
+                        Professional Links
+                    </h3>
+
+                    <div class="links">
+
+                        ${link(
+                            x.candidate_github,
+                            "GitHub"
+                        )}
+
+                        ${link(
+                            x.candidate_linkedin,
+                            "LinkedIn"
+                        )}
+
+                        ${link(
+                            x.candidate_portfolio,
+                            "Portfolio"
+                        )}
+
+                    </div>
+
+                    ${
+                        !x.candidate_github &&
+                        !x.candidate_linkedin &&
+                        !x.candidate_portfolio
+
+                        ? `
+                            <p class="muted">
+                                No social links added.
+                            </p>
+                          `
+                        : ""
+                    }
+
+                </div>
+
+
+                <!-- =============================
+                     RESUME
+                ============================== -->
+
+                <div class="detail-section">
+
+                    <h3>
+                        Resume
+                    </h3>
+
+                    ${
+                        resume
+
+                        ? `
+                            <div class="resume-actions">
+
+                                <a
+                                    class="btn outline"
+                                    href="${esc(resumeUrl)}"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    📄 View Resume
+                                </a>
+
+                                <a
+                                    class="btn outline"
+                                    href="${esc(resumeUrl)}"
+                                    target="_blank"
+                                    download
+                                >
+                                    ⬇ Download
+                                </a>
+
+                            </div>
+                          `
+
+                        : `
+                            <p class="muted">
+                                No resume link provided.
+                            </p>
+                          `
+                    }
+
+                </div>
+
+
+                <!-- =============================
+                     VIEW FULL PROFILE
+                ============================== -->
+
+                <div
+                    class="button-row"
+                    style="margin-top:22px"
+                >
+
+                    <a
+                        class="btn primary"
+                        href="candidate-view.html?user_id=${x.candidate_id}"
+                    >
+                        👤 View Full Profile
+                    </a>
+
+                </div>
+
+
+                <!-- =============================
+                     CONTACT
+                ============================== -->
+
+                <div class="panel">
+
+                    <h3>
+                        Contact Candidate
+                    </h3>
+
+                    <div class="contact-buttons">
+
+                        <a
+                            class="btn outline"
+                            href="mailto:${esc(
+                                x.candidate_email || ""
+                            )}"
+                        >
+                            ✉ Email
+                        </a>
+
+                        ${
+                            x.candidate_phone
+
+                            ? `
+                                <a
+                                    class="btn outline"
+                                    href="tel:${esc(
+                                        x.candidate_phone
+                                    )}"
+                                >
+                                    ☎ Call
+                                </a>
+                              `
+                            : ""
+                        }
+
+                    </div>
+
+                </div>
+
+
+                <!-- =============================
+                     EMPLOYER NOTES
+                ============================== -->
+
+                <div class="panel">
+
+                    <h3>
+                        Employer Notes
+                    </h3>
+
+                    <textarea
+                        id="employerNotes"
+                        rows="5"
+                        placeholder="Add a private note about this candidate..."
+                    >${esc(
+                        x.employer_notes || ""
+                    )}</textarea>
+
+                    <div class="save-row">
+
+                        <button
+                            class="btn primary"
+                            onclick="saveNotes()"
+                        >
+                            Save Notes
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+            </section>
+
+
+            <!-- =================================
+                 RIGHT SIDE - APPLICATION
+            ================================== -->
+
+            <section class="profile-card">
+
+
+                <h2>
+                    Application Details
+                </h2>
+
+
+                <div class="info-grid">
+
+                    ${info(
+                        "Job Title",
+                        x.job_title
+                    )}
+
+                    ${info(
+                        "Applied On",
+                        fmtDate(x.applied_at)
+                    )}
+
+                    ${info(
+                        "Location",
+                        x.job_location || "Remote"
+                    )}
+
+                    ${info(
+                        "Job Type",
+                        (x.job_type || "") +
+                        (
+                            x.work_mode
+                            ? " · " + x.work_mode
+                            : ""
+                        )
+                    )}
+
+                </div>
+
+
+                <!-- STATUS -->
+
+                <div class="detail-section">
+
+                    <h3>
+                        Status
+                    </h3>
+
+                    <p>
+
+                        <span
+                            class="status ${esc(
+                                x.status || "pending"
+                            )}"
+                        >
+                            ${statusLabel(x.status)}
+                        </span>
+
+                    </p>
+
+                </div>
+
+
+                <!-- JOB DETAILS -->
+
+                <div class="panel">
+
+                    <h3>
+                        Job Details
+                    </h3>
+
+                    <p>
+                        <b>
+                            ${esc(
+                                x.job_title || "Job"
+                            )}
+                        </b>
+                    </p>
+
+                    <div class="detail-text job-description">
+                        ${text(
+                            x.job_description
+                        )}
+                    </div>
+
+                </div>
+
+
+                <!-- SHORTLIST -->
+
+                <div class="panel">
+
+                    <h3>
+                        Shortlist
+                    </h3>
+
+                    <p>
+
+                        ${
+                            x.shortlisted
+
+                            ? "★ This candidate is shortlisted."
+
+                            : "Candidate is not shortlisted yet."
+                        }
+
+                    </p>
+
+                    <button
+                        class="btn ${
+                            x.shortlisted
+                            ? "outline"
+                            : "primary"
+                        }"
+                        onclick="toggleShortlist()"
+                    >
+
+                        ${
+                            x.shortlisted
+                            ? "★ Shortlisted"
+                            : "☆ Shortlist"
+                        }
+
+                    </button>
+
+                </div>
+
+
+                <!-- =============================
+                     INTERVIEW MANAGEMENT
+                ============================== -->
+
+                ${
+                    x.shortlisted ||
+                    x.status === "interview" ||
+                    interview.date
+
+                    ? `
+
+                    <div class="panel">
+
+                        <h3>
+                            🎤 Interview Management
+                        </h3>
+
+
+                        ${
+                            interview.date
+
+                            ? `
+
+                            <div class="interview-card">
+
+                                <b>
+                                    Interview Scheduled
+                                </b>
+
+                                <p>
+
+                                    📅 ${esc(
+                                        interview.date
+                                    )}
+
+                                    <br>
+
+                                    🕐 ${esc(
+                                        interview.time || "-"
+                                    )}
+
+                                    <br>
+
+                                    💻 ${esc(
+                                        interview.mode || "-"
+                                    )}
+
+                                </p>
+
+
+                                ${
+                                    interview.interviewer
+
+                                    ? `
+                                        <p>
+                                            👤 Interviewer:
+                                            ${esc(
+                                                interview.interviewer
+                                            )}
+                                        </p>
+                                      `
+                                    : ""
+                                }
+
+
+                                ${
+                                    interview.round
+
+                                    ? `
+                                        <p>
+                                            🔄 Round:
+                                            ${esc(
+                                                interview.round
+                                            )}
+                                        </p>
+                                      `
+                                    : ""
+                                }
+
+
+                                ${
+                                    interview.link
+
+                                    ? `
+                                        <a
+                                            class="btn outline"
+                                            href="${esc(
+                                                interview.link
+                                            )}"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            🔗 Meeting Link
+                                        </a>
+                                      `
+                                    : ""
+                                }
+
+
+                                ${
+                                    interview.instructions
+
+                                    ? `
+                                        <p class="small-note">
+
+                                            <b>
+                                                Instructions:
+                                            </b>
+
+                                            ${esc(
+                                                interview.instructions
+                                            )}
+
+                                        </p>
+                                      `
+                                    : ""
+                                }
+
+                            </div>
+
+                            `
+
+                            : ""
+                        }
+
+
+                        <div class="form-grid">
+
+                            <div class="form-field">
+
+                                <label>
+                                    Date
+                                </label>
+
+                                <input
+                                    id="intDate"
+                                    type="date"
+                                    value="${esc(
+                                        interview.date || ""
+                                    )}"
+                                >
+
+                            </div>
+
+
+                            <div class="form-field">
+
+                                <label>
+                                    Time
+                                </label>
+
+                                <input
+                                    id="intTime"
+                                    type="time"
+                                    value="${esc(
+                                        interview.time || ""
+                                    )}"
+                                >
+
+                            </div>
+
+
+                            <div class="form-field">
+
+                                <label>
+                                    Mode
+                                </label>
+
+                                <select id="intMode">
+
+                                    <option value="Online">
+                                        Online
+                                    </option>
+
+                                    <option value="Offline">
+                                        Offline
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                            <div class="form-field">
+
+                                <label>
+                                    Interviewer
+                                </label>
+
+                                <input
+                                    id="intInterviewer"
+                                    value="${esc(
+                                        interview.interviewer || ""
+                                    )}"
+                                >
+
+                            </div>
+
+
+                            <div class="form-field">
+
+                                <label>
+                                    Interview Round
+                                </label>
+
+                                <input
+                                    id="intRound"
+                                    placeholder="Technical Round"
+                                    value="${esc(
+                                        interview.round || ""
+                                    )}"
+                                >
+
+                            </div>
+
+
+                            <div class="form-field">
+
+                                <label>
+                                    Meeting Link
+                                </label>
+
+                                <input
+                                    id="intLink"
+                                    placeholder="Required for online"
+                                    value="${esc(
+                                        interview.link || ""
+                                    )}"
+                                >
+
+                            </div>
+
+
+                            <div class="form-field full-field">
+
+                                <label>
+                                    Instructions
+                                </label>
+
+                                <textarea
+                                    id="intInstructions"
+                                    rows="3"
+                                >${esc(
+                                    interview.instructions || ""
+                                )}</textarea>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="save-row">
+
+                            <button
+                                class="btn primary"
+                                onclick="scheduleInterview()"
+                            >
+                                🎤 ${
+                                    interview.date
+                                    ? "Update Interview"
+                                    : "Schedule Interview"
+                                }
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                    `
+
+                    : ""
+                }
+
+
+                <!-- =============================
+                     INTERVIEW FEEDBACK
+                ============================== -->
+
+                ${
+                    interview.date
+
+                    ? `
+
+                    <div class="panel">
+
+                        <h3>
+                            📝 Interview Feedback
+                        </h3>
+
+
+                        <div class="two-col">
+
+                            <div class="form-field">
+
+                                <label>
+                                    Technical Skills
+                                </label>
+
+                                ${starsOptions(
+                                    "fbTechnical"
+                                )}
+
+                            </div>
+
+
+                            <div class="form-field">
+
+                                <label>
+                                    Communication
+                                </label>
+
+                                ${starsOptions(
+                                    "fbCommunication"
+                                )}
+
+                            </div>
+
+
+                            <div class="form-field">
+
+                                <label>
+                                    Problem Solving
+                                </label>
+
+                                ${starsOptions(
+                                    "fbProblem"
+                                )}
+
+                            </div>
+
+
+                            <div class="form-field">
+
+                                <label>
+                                    Result
+                                </label>
+
+                                <select id="fbResult">
+
+                                    <option value="passed">
+                                        Passed — Select Candidate
+                                    </option>
+
+                                    <option value="next_round">
+                                        Next Round
+                                    </option>
+
+                                    <option value="failed">
+                                        Failed — Reject Candidate
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-grid">
+
+                            <div class="form-field">
+
+                                <label>
+                                    Strengths
+                                </label>
+
+                                <textarea
+                                    id="fbStrengths"
+                                    rows="3"
+                                ></textarea>
+
+                            </div>
+
+
+                            <div class="form-field">
+
+                                <label>
+                                    Areas for Improvement
+                                </label>
+
+                                <textarea
+                                    id="fbImprovements"
+                                    rows="3"
+                                ></textarea>
+
+                            </div>
+
+
+                            <div class="form-field full-field">
+
+                                <label>
+                                    Remarks
+                                </label>
+
+                                <textarea
+                                    id="fbRemarks"
+                                    rows="3"
+                                >${esc(
+                                    interview.feedback || ""
+                                )}</textarea>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="save-row">
+
+                            <button
+                                class="btn primary"
+                                onclick="saveFeedback()"
+                            >
+                                Save Interview Feedback
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                    `
+
+                    : ""
+                }
+
+
+                <!-- =============================
+                     OFFER MANAGEMENT
+                ============================== -->
+
+                ${
+                    x.status === "selected" ||
+                    x.status === "accepted"
+
+                    ? `
+
+                    <div class="panel">
+
+                        <h3>
+                            📨 Offer Management
+                        </h3>
+
+
+                        ${
+                            offer.status !== "not_created"
+
+                            ? `
+
+                            <div class="offer-card">
+
+                                <b>
+                                    Offer ${esc(
+                                        offer.status
+                                    )}
+                                </b>
+
+                                <p>
+
+                                    <b>Position:</b>
+                                    ${text(
+                                        offer.position
+                                    )}
+
+                                    <br>
+
+                                    <b>Salary/Stipend:</b>
+                                    ${text(
+                                        offer.salary
+                                    )}
+
+                                    <br>
+
+                                    <b>Joining Date:</b>
+                                    ${text(
+                                        offer.joining_date
+                                    )}
+
+                                    <br>
+
+                                    <b>Work Location:</b>
+                                    ${text(
+                                        offer.work_location
+                                    )}
+
+                                    <br>
+
+                                    <b>Employment Type:</b>
+                                    ${text(
+                                        offer.employment_type
+                                    )}
+
+                                    <br>
+
+                                    <b>Offer Expiry:</b>
+                                    ${text(
+                                        offer.expiry_date
+                                    )}
+
+                                </p>
+
+                            </div>
+
+                            `
+
+                            : ""
+                        }
+
+
+                        <div class="form-grid">
+
+                            <div class="form-field">
+
+                                <label>
+                                    Position
+                                </label>
+
+                                <input
+                                    id="offerPosition"
+                                    value="${esc(
+                                        offer.position ||
+                                        x.job_title ||
+                                        ""
+                                    )}"
+                                >
+
+                            </div>
+
+
+                            <div class="form-field">
+
+                                <label>
+                                    Salary / Stipend
+                                </label>
+
+                                <input
+                                    id="offerSalary"
+                                    placeholder="₹20,000/month"
+                                    value="${esc(
+                                        offer.salary || ""
+                                    )}"
+                                >
+
+                            </div>
+
+
+                            <div class="form-field">
+
+                                <label>
+                                    Joining Date
+                                </label>
+
+                                <input
+                                    id="offerJoining"
+                                    type="date"
+                                    value="${esc(
+                                        offer.joining_date || ""
+                                    )}"
+                                >
+
+                            </div>
+
+
+                            <div class="form-field">
+
+                                <label>
+                                    Work Location
+                                </label>
+
+                                <input
+                                    id="offerLocation"
+                                    value="${esc(
+                                        offer.work_location ||
+                                        x.job_location ||
+                                        ""
+                                    )}"
+                                >
+
+                            </div>
+
+
+                            <div class="form-field">
+
+                                <label>
+                                    Employment Type
+                                </label>
+
+                                <select id="offerType">
+
+                                    <option value="Internship">
+                                        Internship
+                                    </option>
+
+                                    <option value="Full-time">
+                                        Full-time
+                                    </option>
+
+                                    <option value="Part-time">
+                                        Part-time
+                                    </option>
+
+                                    <option value="Contract">
+                                        Contract
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                            <div class="form-field">
+
+                                <label>
+                                    Offer Expiry Date
+                                </label>
+
+                                <input
+                                    id="offerExpiry"
+                                    type="date"
+                                    value="${esc(
+                                        offer.expiry_date || ""
+                                    )}"
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="save-row">
+
+                            <button
+                                class="btn primary"
+                                onclick="createOffer()"
+                            >
+                                📨 ${
+                                    offer.status === "sent"
+                                    ? "Update & Send Offer"
+                                    : "Create & Send Offer"
+                                }
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                    `
+
+                    : ""
+                }
+
+
+                <!-- =============================
+                     APPLICATION ACTIONS
+                ============================== -->
+
+                <div
+                    class="actions"
+                    style="margin-top:24px"
+                >
+
+                    ${
+                        x.status !== "rejected" &&
+                        x.status !== "selected" &&
+                        x.status !== "accepted"
+
+                        ? `
+
+                            <button
+                                class="btn accept"
+                                onclick="changeStatus(
+                                    ${x.application_id},
+                                    'selected'
+                                )"
+                            >
+                                ✓ Select Candidate
+                            </button>
+
+                          `
+
+                        : ""
+                    }
+
+
+                    ${
+                        x.status !== "rejected"
+
+                        ? `
+
+                            <button
+                                class="btn reject"
+                                onclick="changeStatus(
+                                    ${x.application_id},
+                                    'rejected'
+                                )"
+                            >
+                                ✕ Reject
+                            </button>
+
+                          `
+
+                        : ""
+                    }
+
+                </div>
+
+
+            </section>
+
+        </div>
+
+        `;
+
+
+        /* =========================
+           SAFE FIELD ASSIGNMENTS
+        ========================= */
+
+        const intModeEl =
+            document.getElementById("intMode");
+
+        if(
+            intModeEl &&
+            interview.mode
+        ){
+            intModeEl.value =
+                interview.mode;
+        }
+
+
+        const offerTypeEl =
+            document.getElementById("offerType");
+
+        if(
+            offerTypeEl &&
+            offer.employment_type
+        ){
+            offerTypeEl.value =
+                offer.employment_type;
+        }
+
+
+    }
+
+    catch(e){
+
+        document.getElementById(
+            "details"
+        ).innerHTML = `
+
+            <div class="profile-card">
+
+                <h2>
+                    Could not load application
+                </h2>
+
+                <p>
+                    ${esc(e.message)}
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =========================
+   CHANGE STATUS
+========================= */
+
+async function changeStatus(id,status){
+
+    const label =
+        status === "selected"
+        ? "select"
+        : "reject";
+
+
+    if(
+        !confirm(
+            `Are you sure you want to ${label} this candidate?`
+        )
+    ){
+        return;
+    }
+
+
+    try{
+
+        await api(
+            "/applications/" +
+            id +
+            "/status?status=" +
+            encodeURIComponent(status),
+
+            {
+                method:"PATCH",
+                headers:authHeaders()
+            }
+        );
+
+
+        alert(
+            "Application status updated successfully."
+        );
+
+
+        load();
+
+    }
+
+    catch(e){
+
+        alert(e.message);
+
+    }
+
+}
+
+
+/* =========================
+   SHORTLIST
+========================= */
+
+async function toggleShortlist(){
+
+    try{
+
+        const next =
+            !currentApplication.shortlisted;
+
+
+        await api(
+            `/applications/${currentApplication.application_id}/shortlist?shortlisted=${next}`,
+
+            {
+                method:"PATCH",
+                headers:authHeaders()
+            }
+        );
+
+
+        load();
+
+    }
+
+    catch(e){
+
+        alert(e.message);
+
+    }
+
+}
+
+
+/* =========================
+   EMPLOYER NOTES
+========================= */
+
+async function saveNotes(){
+
+    try{
+
+        const notes =
+            document.getElementById(
+                "employerNotes"
+            ).value;
+
+
+        await api(
+            `/applications/${currentApplication.application_id}/notes`,
+
+            {
+                method:"PATCH",
+                headers:authHeaders(true),
+
+                body:JSON.stringify({
+                    notes:notes
+                })
+            }
+        );
+
+
+        alert(
+            "Employer notes saved."
+        );
+
+    }
+
+    catch(e){
+
+        alert(e.message);
+
+    }
+
+}
+
+
+/* =========================
+   SCHEDULE INTERVIEW
+========================= */
+
+async function scheduleInterview(){
+
+    const modeEl =
+        document.getElementById("intMode");
+
+
+    const mode =
+        modeEl ? modeEl.value : "Online";
+
+
+    const payload = {
+
+        date:
+            document.getElementById(
+                "intDate"
+            ).value,
+
+        time:
+            document.getElementById(
+                "intTime"
+            ).value,
+
+        mode:mode,
+
+        meeting_link:
+            document.getElementById(
+                "intLink"
+            ).value,
+
+        interviewer:
+            document.getElementById(
+                "intInterviewer"
+            ).value,
+
+        round:
+            document.getElementById(
+                "intRound"
+            ).value,
+
+        instructions:
+            document.getElementById(
+                "intInstructions"
+            ).value
+
+    };
+
+
+    if(
+        !payload.date ||
+        !payload.time
+    ){
+
+        alert(
+            "Please enter the interview date and time."
+        );
+
+        return;
+    }
+
+
+    if(
+        mode === "Online" &&
+        !payload.meeting_link
+    ){
+
+        alert(
+            "Please enter the meeting link for an online interview."
+        );
+
+        return;
+    }
+
+
+    try{
+
+        await api(
+            `/applications/${currentApplication.application_id}/interview`,
+
+            {
+                method:"POST",
+                headers:authHeaders(true),
+
+                body:JSON.stringify(payload)
+            }
+        );
+
+
+        alert(
+            "Interview scheduled successfully."
+        );
+
+
+        load();
+
+    }
+
+    catch(e){
+
+        alert(e.message);
+
+    }
+
+}
+
+
+/* =========================
+   INTERVIEW FEEDBACK
+========================= */
+
+async function saveFeedback(){
+
+    const payload = {
+
+        technical:
+            document.getElementById(
+                "fbTechnical"
+            ).value,
+
+        communication:
+            document.getElementById(
+                "fbCommunication"
+            ).value,
+
+        problem_solving:
+            document.getElementById(
+                "fbProblem"
+            ).value,
+
+        strengths:
+            document.getElementById(
+                "fbStrengths"
+            ).value,
+
+        improvements:
+            document.getElementById(
+                "fbImprovements"
+            ).value,
+
+        remarks:
+            document.getElementById(
+                "fbRemarks"
+            ).value,
+
+        result:
+            document.getElementById(
+                "fbResult"
+            ).value
+
+    };
+
+
+    try{
+
+        await api(
+            `/applications/${currentApplication.application_id}/interview-feedback`,
+
+            {
+                method:"PATCH",
+                headers:authHeaders(true),
+
+                body:JSON.stringify(payload)
+            }
+        );
+
+
+        alert(
+            "Interview feedback saved."
+        );
+
+
+        load();
+
+    }
+
+    catch(e){
+
+        alert(e.message);
+
+    }
+
+}
+
+
+/* =========================
+   CREATE OFFER
+========================= */
+
+async function createOffer(){
+
+    const payload = {
+
+        position:
+            document.getElementById(
+                "offerPosition"
+            ).value,
+
+        salary:
+            document.getElementById(
+                "offerSalary"
+            ).value,
+
+        joining_date:
+            document.getElementById(
+                "offerJoining"
+            ).value,
+
+        work_location:
+            document.getElementById(
+                "offerLocation"
+            ).value,
+
+        employment_type:
+            document.getElementById(
+                "offerType"
+            ).value,
+
+        expiry_date:
+            document.getElementById(
+                "offerExpiry"
+            ).value
+
+    };
+
+
+    if(
+        Object.values(payload)
+        .some(v => !v)
+    ){
+
+        alert(
+            "Please fill all offer fields."
+        );
+
+        return;
+    }
+
+
+    try{
+
+        await api(
+            `/applications/${currentApplication.application_id}/offer`,
+
+            {
+                method:"POST",
+                headers:authHeaders(true),
+
+                body:JSON.stringify(payload)
+            }
+        );
+
+
+        alert(
+            "Offer created and sent."
+        );
+
+
+        load();
+
+    }
+
+    catch(e){
+
+        alert(e.message);
+
+    }
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+load();
+
+</script>
+
+</body>
+</html>

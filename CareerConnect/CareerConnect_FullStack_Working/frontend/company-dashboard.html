@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Dashboard - CareerConnect</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <aside class="sidebar">
+
+        <a class="brand" href="index.html">
+            🎓 CareerConnect
+        </a>
+
+        <a class="active" href="company-dashboard.html">
+            ⌂ Dashboard
+        </a>
+
+        <a href="post-job.html">
+            ▣ Post Job
+        </a>
+
+        <a href="employer-jobs.html">
+            ◫ My Jobs
+        </a>
+
+        <a href="employer-applications.html">
+            ♙ Applications
+        </a>
+
+        <a href="company-profile.html">
+            🏢 Company Profile
+        </a>
+
+        <a href="#" onclick="logout(); return false;">
+            ↪ Logout
+        </a>
+
+    </aside>
+
+
+    <main class="dashboard">
+
+        <header class="dashbar">
+
+            <span></span>
+
+            <span id="bell"></span>
+
+            <span id="companyName">
+                🏢 Company
+            </span>
+
+        </header>
+
+
+        <section class="welcome">
+
+            <div>
+
+                <h1>
+                    Welcome,
+                    <span id="welcomeName">Company</span>! 👋
+                </h1>
+
+                <p>
+                    Manage your job listings and connect with talented candidates.
+                </p>
+
+            </div>
+
+            <a class="btn primary" href="post-job.html">
+                + Post a New Job
+            </a>
+
+        </section>
+
+
+        <section class="stats">
+
+            <div>
+                <b id="jobsCount">0</b>
+                <small>Jobs Posted</small>
+            </div>
+
+            <div>
+                <b id="appsCount">0</b>
+                <small>Applications</small>
+            </div>
+
+            <div>
+                <b id="pendingCount">0</b>
+                <small>Pending</small>
+            </div>
+
+            <div>
+                <b id="acceptedCount">0</b>
+                <small>Accepted</small>
+            </div>
+
+        </section>
+
+
+        <div id="dashboardMessage"></div>
+
+
+        <div class="table-card">
+
+            <h2>Recent Applications</h2>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Candidate</th>
+                        <th>Job Title</th>
+                        <th>Applied On</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="rows">
+
+                    <tr>
+                        <td colspan="5">
+                            Loading applications...
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<script src="app.js"></script>
+
+
+<script>
+
+requireRole("employer");
+
+document.getElementById("bell").innerHTML = bell();
+
+
+async function loadDashboard() {
+
+    const message =
+        document.getElementById("dashboardMessage");
+
+    try {
+
+        /*
+         * Get currently logged-in company
+         */
+
+        const me = await api(
+            "/auth/me",
+            {
+                headers: authHeaders()
+            }
+        );
+
+
+        document.getElementById("welcomeName").textContent =
+            me.name;
+
+        document.getElementById("companyName").textContent =
+            "🏢 " + me.name;
+
+
+        /*
+         * Get this company's jobs
+         */
+
+        const jobs = await api(
+            "/jobs/mine",
+            {
+                headers: authHeaders()
+            }
+        );
+
+
+        /*
+         * Get applications for this company's jobs
+         */
+
+        const applications = await api(
+            "/applications/employer",
+            {
+                headers: authHeaders()
+            }
+        );
+
+
+        /*
+         * Update statistics
+         */
+
+        document.getElementById("jobsCount").textContent =
+            jobs.length;
+
+        document.getElementById("appsCount").textContent =
+            applications.length;
+
+        document.getElementById("pendingCount").textContent =
+            applications.filter(
+                x => x.status === "pending"
+            ).length;
+
+        document.getElementById("acceptedCount").textContent =
+            applications.filter(
+                x => x.status === "accepted" || x.status === "selected"
+            ).length;
+
+
+        /*
+         * Display recent applications
+         */
+
+        const rows =
+            document.getElementById("rows");
+
+
+        if (!applications.length) {
+
+            rows.innerHTML = `
+                <tr>
+                    <td colspan="5">
+                        No applications yet.
+                    </td>
+                </tr>
+            `;
+
+        } else {
+
+            rows.innerHTML =
+                applications
+                    .slice(0, 10)
+                    .map(x => `
+
+                        <tr>
+
+                            <td>
+                                ${esc(x.candidate_name)}
+                                <br>
+                                <small>
+                                    ${esc(x.candidate_email)}
+                                </small>
+                            </td>
+
+                            <td>
+                                ${esc(x.job_title)}
+                            </td>
+
+                            <td>
+                                ${fmtDate(x.applied_at)}
+                            </td>
+
+                            <td>
+                                <span class="status ${esc(x.status)}">
+                                    ${esc(x.status)}
+                                </span>
+                            </td>
+
+                            <td>
+                                <a href="application-details.html?id=${x.application_id}">
+                                    View
+                                </a>
+                            </td>
+
+                        </tr>
+
+                    `)
+                    .join("");
+        }
+
+
+        message.innerHTML = "";
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Company dashboard error:",
+            error
+        );
+
+
+        message.innerHTML = `
+            <div class="profile-card">
+
+                <h3>
+                    Unable to load dashboard data
+                </h3>
+
+                <p>
+                    ${esc(error.message)}
+                </p>
+
+            </div>
+        `;
+
+    }
+
+}
+
+
+loadDashboard();
+
+</script>
+
+</body>
+</html>

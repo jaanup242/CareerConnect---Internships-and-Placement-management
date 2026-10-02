@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Jobs - CareerConnect</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <aside class="sidebar">
+
+        <a class="brand" href="index.html">
+            🎓 CareerConnect
+        </a>
+
+        <a href="company-dashboard.html">
+            ⌂ Dashboard
+        </a>
+
+        <a href="post-job.html">
+            ▣ Post Job
+        </a>
+
+        <a class="active" href="employer-jobs.html">
+            ◫ My Jobs
+        </a>
+
+        <a href="employer-applications.html">
+            ♙ Applications
+        </a>
+
+        <a href="company-profile.html">
+            🏢 Company Profile
+        </a>
+
+        <a href="#" onclick="logout(); return false;">
+            ↪ Logout
+        </a>
+
+    </aside>
+
+
+    <main class="dashboard">
+
+        <header class="dashbar">
+            <span></span>
+
+            <span id="bell"></span>
+
+            <span id="companyName">
+                🏢 Company
+            </span>
+        </header>
+
+
+        <div class="page-title">
+
+            <div>
+                <h1>My Jobs</h1>
+
+                <p>
+                    Manage the jobs posted by your company.
+                </p>
+            </div>
+
+            <a class="btn primary" href="post-job.html">
+                + Post Job
+            </a>
+
+        </div>
+
+
+        <div id="message"></div>
+
+        <div id="list" class="job-list">
+            Loading your jobs...
+        </div>
+
+    </main>
+
+</div>
+
+
+<script src="app.js"></script>
+
+<script>
+
+requireRole("employer");
+
+document.getElementById("bell").innerHTML = bell();
+
+
+// Show company name
+const savedName = localStorage.getItem("cc_name");
+
+if (savedName) {
+    document.getElementById("companyName").textContent =
+        "🏢 " + savedName;
+}
+
+
+// Load jobs
+async function loadJobs() {
+
+    const list = document.getElementById("list");
+    const message = document.getElementById("message");
+
+    try {
+
+        const jobs = await api(
+            "/jobs/mine",
+            {
+                headers: authHeaders()
+            }
+        );
+
+
+        if (!jobs || jobs.length === 0) {
+
+            list.innerHTML = `
+                <div class="profile-card">
+                    <h3>No jobs posted yet.</h3>
+
+                    <p>
+                        You haven't posted any jobs yet.
+                    </p>
+
+                    <a class="btn primary" href="post-job.html">
+                        + Post Your First Job
+                    </a>
+                </div>
+            `;
+
+            return;
+        }
+
+
+        list.innerHTML = jobs.map(job => `
+
+            <article class="job">
+
+                <div>
+
+                    <h3>
+                        ${esc(job.title)}
+                    </h3>
+
+
+                    <p>
+                        📍 ${esc(job.location || "Remote")}
+                    </p>
+
+
+                    <p>
+                        💼 ${esc(job.job_type || "Internship")}
+                        &nbsp; · &nbsp;
+                        🏠 ${esc(job.work_mode || "Remote")}
+                    </p>
+
+                    ${job.salary ? `<p>💰 <b>${esc(job.salary)}</b></p>` : ""}
+
+
+                    ${
+                        job.skills
+                        ?
+                        `<div class="tags">
+                            ${tags(job.skills)}
+                        </div>`
+                        :
+                        ""
+                    }
+
+
+                    <p>
+                        ${esc(job.description)}
+                    </p>
+
+
+                    <small>
+                        Posted:
+                        ${fmtDate(job.created_at)}
+                    </small>
+
+                </div>
+
+
+                <div style="display:flex;gap:8px;flex-wrap:wrap">
+                    <a class="btn primary" href="post-job.html?id=${job.id}">Edit</a>
+                    <button class="btn outline" onclick="deleteJob(${job.id})">Delete</button>
+                </div>
+
+            </article>
+
+        `).join("");
+
+    }
+
+    catch (error) {
+
+        console.error("Unable to load jobs:", error);
+
+        list.innerHTML = `
+            <div class="profile-card">
+
+                <h3>Unable to load jobs</h3>
+
+                <p>
+                    ${esc(error.message)}
+                </p>
+
+                <button
+                    class="btn primary"
+                    onclick="loadJobs()"
+                >
+                    Try Again
+                </button>
+
+            </div>
+        `;
+
+    }
+
+}
+
+
+// Delete job
+async function deleteJob(id) {
+
+    const confirmed = confirm(
+        "Are you sure you want to delete this job?"
+    );
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    try {
+
+        await api(
+            "/jobs/" + id,
+            {
+                method: "DELETE",
+                headers: authHeaders()
+            }
+        );
+
+        await loadJobs();
+
+    }
+
+    catch (error) {
+
+        alert(error.message);
+
+    }
+
+}
+
+
+loadJobs();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Candidate Profile | CareerConnect</title><link rel="stylesheet" href="style.css"></head>
+<body><div class="app"><aside class="sidebar"><a class="brand" href="index.html">🎓 CareerConnect</a><a href="company-dashboard.html">⌂ Dashboard</a><a href="post-job.html">▣ Post Job</a><a href="employer-jobs.html">◫ My Jobs</a><a class="active" href="employer-applications.html">♙ Applications</a><a href="company-profile.html">🏢 Company Profile</a><a onclick="logout()">↪ Logout</a></aside>
+<main class="dashboard"><header class="dashbar"><a href="javascript:history.back()">← Back</a><span id="bell"></span><span>🏢 Company</span></header>
+<div class="page-title"><div><h1>Candidate Profile</h1><p>Full profile submitted by the candidate.</p></div></div>
+<div id="profile"></div></main></div>
+<script src="app.js"></script><script>
+requireRole("employer");document.getElementById("bell").innerHTML=bell();
+function esc2(v){return esc(v||"")}
+function sec(title,value){return value?`<div class="detail-section"><h3>${title}</h3><div class="detail-text">${esc2(value)}</div></div>`:""}
+function link2(v,label){if(!v)return "";let u=/^https?:\/\//i.test(v)?v:"https://"+v;return `<a class="link-btn" href="${esc(u)}" target="_blank">${label} ↗</a>`}
+(async()=>{try{
+ const id=new URLSearchParams(location.search).get("user_id");
+ const p=await api(`/candidate-profile/${id}`,{headers:authHeaders()});
+ 
+ document.getElementById("profile").innerHTML=`<section class="profile-card"><div class="profile-head"><div class="avatar large">👩🏻‍💼</div><div><h2>${esc(p.name)}</h2><p>${esc(p.email)}</p></div></div>
+ <div class="info-grid"><div class="info-box"><small>Phone</small><b>${esc2(p.phone)||"Not provided"}</b></div><div class="info-box"><small>Location</small><b>${esc2(p.location)||"Not provided"}</b></div><div class="info-box"><small>College</small><b>${esc2(p.college)||"Not provided"}</b></div><div class="info-box"><small>Degree / Branch</small><b>${esc2(p.degree)}${p.branch?" · "+esc2(p.branch):""}</b></div><div class="info-box"><small>Graduation Year</small><b>${esc2(p.graduation_year)||"Not provided"}</b></div><div class="info-box"><small>CGPA</small><b>${esc2(p.cgpa)||"Not provided"}</b></div></div>
+ ${sec("About Me",p.about)}${sec("Qualifications",p.qualifications)}${sec("Skills",p.skills)}${sec("Projects",p.projects)}${sec("Experience",p.experience)}${sec("Achievements",p.achievements)}${sec("Certifications",p.certifications)}
+ <div class="detail-section"><h3>Professional Links</h3><div class="links">${link2(p.github,"GitHub")}${link2(p.linkedin,"LinkedIn")}${link2(p.portfolio,"Portfolio")}</div></div>
+ ${p.resume_url?`<div class="actions"><a class="btn primary" href="${esc(/^https?:\/\//i.test(p.resume_url)?p.resume_url:"https://"+p.resume_url)}" target="_blank">📄 View Resume</a></div>`:""}</section>`;
+}catch(e){document.getElementById("profile").innerHTML=`<div class="profile-card"><h2>Could not load profile</h2><p>${esc(e.message)}</p></div>`}})();
+</script></body></html>
